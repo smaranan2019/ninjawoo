@@ -1,8 +1,8 @@
+DROP SCHEMA IF EXISTS nv_jolibeee; 
 SET time_zone = "+08:00";
 
 CREATE DATABASE IF NOT EXISTS nv_jolibeee DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE nv_jolibeee;
-
 
 DROP TABLE IF EXISTS driver;
 CREATE TABLE IF NOT EXISTS driver (
@@ -24,16 +24,16 @@ DROP TABLE IF EXISTS package;
 CREATE TABLE IF NOT EXISTS package (
   `tracking_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_name` varchar(100) NOT NULL,
-  `cusomter_address` varchar(100) NOT NULL,
+  `customer_address` text NOT NULL,
   `shipper_name` varchar(100) NOT NULL,
-  `shipper_address` varchar(100) NOT NULL,
+  `shipper_address` text NOT NULL,
   `package_status` varchar(100) NOT NULL DEFAULT 'PENDING PICKUP',
   `package_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `package_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tracking_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO package (`tracking_id`, `customer_name`, `cusomter_address`, `shipper_name`, `shipper_address`, 
+INSERT INTO package (`tracking_id`, `customer_name`, `customer_address`, `shipper_name`, `shipper_address`, 
 					`package_status`) VALUES
 (1, 'Angelica Skyler', '32 Smith Road, #04-23, S112233', 'Alexander Hamilton', '65 Applebee, #23-52, S734483', 
 'PENDING PICKUP'),
