@@ -149,7 +149,6 @@
                 <div class="container-fluid rounded-top p-5" style="background: white; box-shadow: 0 8px 8px -4px lightgray;">
 
                     <div id="parcel_details">
-                        Enter a tracking ID to search for driver's remark
                     </div>
 
                     <table class="table">
@@ -164,6 +163,13 @@
                         </thead>
 
                         <tbody id="remark_entry">
+                            <tr id="empty_data">
+                                <td>Enter a tracking ID to search for driver's remark</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
 
                     </table>
@@ -237,7 +243,7 @@
                                 times_display.push(time.toString());
                             }
                         }
-
+                        document.getElementById("empty_data").innerHTML = ""
                         document.getElementById("remark_entry").innerHTML += `
                                 <tr>
                                     <td id="remark_problem_description">${remark.remark_problem_description}</td>
