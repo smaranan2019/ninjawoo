@@ -149,6 +149,7 @@
                 <div class="container-fluid rounded-top p-5" style="background: white; box-shadow: 0 8px 8px -4px lightgray;">
 
                     <div id="parcel_details">
+                        Enter a tracking ID to search for driver's remark
                     </div>
 
                     <table class="table">
@@ -205,6 +206,7 @@
                     var data = result.data; 
 
                     var package_info = data.package;
+
                     document.getElementById("parcel_details").innerHTML = `
                     <h1 id="tracking_id"> Tracking ID: ${package_info.tracking_id}</h1>
                     <h6 id="customer_name"><b>Customer Name:</b>  ${package_info.customer_name}</h6>
@@ -220,15 +222,31 @@
                     document.getElementById("remark_entry").innerHTML = "";
 
                     for (const remark of remarks){
+
+                        var times = [remark.estimated_delay_day, remark.estimated_delay_hour, remark.estimated_delay_minute]; 
+                        var times_display = [];  
+
+                        for (const time of times){
+                            if (time.toString()=="-1"){
+                                times_display.push("Driver unsure");
+                            }
+                            else if (time.toString().length==1){
+                                times_display.push("0"+time.toString());
+                            } 
+                            else{
+                                times_display.push(time.toString());
+                            }
+                        }
+
                         document.getElementById("remark_entry").innerHTML += `
                                 <tr>
                                     <td id="remark_problem_description">${remark.remark_problem_description}</td>
                                     <td id="remark_date_modified">${remark.remark_date_modified}</td>
-                                    <td id="estimated_delay_day">${remark.estimated_delay_day}</td>
-                                    <td id="estimated_delay_hour">${remark.estimated_delay_hour}</td>
-                                    <td id="estimated_delay_minute">${remark.estimated_delay_minute}</td>
+                                    <td id="estimated_delay_day">${times_display[0]}</td>
+                                    <td id="estimated_delay_hour">${times_display[1]}</td>
+                                    <td id="estimated_delay_minute">${times_display[2]}</td>
                                 </tr>
-                        `
+                        `;
                     }
 
 
