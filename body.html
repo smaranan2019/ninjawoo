@@ -29,6 +29,7 @@
         body {
             background: #eee;
         }
+
     </style>
 </head>
 <body>
@@ -39,7 +40,6 @@
                 <a class="d-flex align-items-center mb-4 mb-mb-0 mr-md-auto text-white text-decoration-none" href="/">
                     <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap">
-                            #shadow-root (closed)
                             <symbol id="boostrap" viewBox="0 0 118 94">
                             </symbol>
                         </use>
@@ -52,7 +52,7 @@
         
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" aria-current="page">
+                        <a class="nav-link active" href="#" aria-current="page" style="background-color:#C31432;">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#home"></use>
                             </svg> Home
@@ -108,9 +108,9 @@
 
             <div class="mt-5"></div>
 
-            <div class="container-fluid filter-options ml-5">
+            <div class="container-fluid filter-options">
 
-                <div class="dropdown">
+                <div class="dropdown" style="margin-left: 3%;">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                       All Status
                     </button>
@@ -143,12 +143,12 @@
                     </ul>
                 </div>
         
-                <button type="button" class="btn btn-primary indent-left">Filter</button>
+                <button type="button" class="btn indent-left" style="background-color: #C31432; color: white;">Filter</button>
         
         
                 <div class="input-group searchbar align-right">
                     <input type="search" class="form-control rounded" placeholder="Tracking ID" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="button" class="btn btn-outline-primary">Search</button>
+                    <button type="button" class="btn" style="background-color: #C31432; color: white;">Search</button>
                  </div>
                 
             </div>
@@ -157,7 +157,7 @@
 
             <div class="container-fluid p-5">
                 <div class="container-fluid rounded-top p-5" style="background: white; box-shadow: 0 8px 8px -4px lightgray;">
-                    <h1> Tracking ID: </h1>
+                    <h1 id=""> Tracking ID: </h1>
                         <h6><b>Customer Name:</b> Ninja Van</h6>
                         <h6><b>Customer Address:</b> Ninja Van, 30 Jalan Kilang Barat, Singapore 159363</h6>
                         <h6><b>Shipper Name:</b> Marani</h6>
