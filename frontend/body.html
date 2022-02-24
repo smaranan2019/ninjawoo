@@ -62,7 +62,7 @@
                     <li>
                         <a class="nav-link text-white" href="#">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href=""#speedometer2"></use>
+                                <use xlink:href="#speedometer2"></use>
                             </svg> Dashboard
                         </a>
                     </li>
@@ -70,7 +70,7 @@
                     <li>
                         <a class="nav-link text-white" href="#">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href=""#table">
+                                <use xlink:href="#table">
                                     <symbol id="table" viewBox="0 0 16 16"></symbol>
                                 </use>
                             </svg> Orders
@@ -80,7 +80,7 @@
                     <li>
                         <a class="nav-link text-white" href="#">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href=""#grid"></use>
+                                <use xlink:href="#grid"></use>
                             </svg> Products
                         </a>
                     </li>
@@ -88,19 +88,13 @@
                     <li>
                         <a class="nav-link text-white" href="#">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href=""#people-circle"></use>
+                                <use xlink:href="#people-circle"></use>
                             </svg> Customers
                         </a>
                     </li>
         
                 </ul>
         
-                <div class="dropdown">
-                    <a id="dropdownUser1" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="rounded-circle me-2" src="https://github.com/mdo.png" alt="" width="32" height="32">
-                        <strong>mdo</strong>
-                    </a>
-                </div>
             </div>
         </div>
     
@@ -147,7 +141,7 @@
         
         
                 <div class="input-group searchbar align-right">
-                    <input type="search" class="form-control rounded" placeholder="Tracking ID" aria-label="Search" aria-describedby="search-addon" id="search_id" value="search_id" />
+                    <input type="search" class="form-control rounded" placeholder="Tracking ID" aria-label="Search" aria-describedby="search-addon" id="search_id"/>
                     <button type="button" class="btn" style="background-color: #C31432; color: white;" onclick="searchParcel()">Search</button>
                  </div>
                 
@@ -159,14 +153,6 @@
                 <div class="container-fluid rounded-top p-5" style="background: white; box-shadow: 0 8px 8px -4px lightgray;">
 
                     <div id="parcel_details">
-                        <h1 id="tracking_id"> Tracking ID: </h1>
-                        <h6 id="customer_name"><b>Customer Name:</b> Ninja Van</h6>
-                        <h6 id="cusomter_address"><b>Customer Address:</b> Ninja Van, 30 Jalan Kilang Barat, Singapore 159363</h6>
-                        <h6 id="shipper_name"><b>Shipper Name:</b> Marani</h6>
-                        <h6 id="shipper_address"><b>Shipper Address:</b> 80 Stamford Road Singapore 178902</h6>
-                        <h6 id="package_status"><b>Package Status:</b> On-Route</h6>
-                        <h6 id="package_created"><b>Package Created</b> 2020-06-16 02:14:55</h6>
-                        <h6 id="package_modified"><b>Package Modified</b> 2020-06-16 02:14:55</h6>
                     </div>
 
                     <table class="table">
@@ -181,50 +167,102 @@
                         </thead>
 
                         <tbody id="remark_entry">
-                          <tr>
-                            <td id="remark_problem_description">Stomach Ache</td>
-                            <td id="remark_date_modified">2020-06-12 02:14:55</td>
-                            <td id="estimated_delay_day">00</td>
-                            <td id="estimated_delay_hour">00</td>
-                            <td id="estimated_delay_minute">30</td>
-                          </tr>
                         </tbody>
 
                     </table>
                 </div>
             </div>
+
+            <div id="msg"></div>
     
         </div>
     </div>
   
 
     <script>
-        function searchParcel() {
-            var search_id = document.getElementById("search_id").value;
 
-            if(search_id == tracking_id) {
-                document.getElementById("parcel_details").innerHTML = `
-                        <h1 id="tracking_id"> Tracking ID: ${tracking_id}</h1>
-                        <h6 id="customer_name"><b>Customer Name:</b>  ${customer_name}</h6>
-                        <h6 id="cusomter_address"><b>Customer Address:</b> ${cusomter_address}</h6>
-                        <h6 id="shipper_name"><b>Shipper Name:</b> ${shipper_name}</h6>
-                        <h6 id="shipper_address"><b>Shipper Address:</b> ${shipper_address}</h6>
-                        <h6 id="package_status"><b>Package Status:</b> ${package_status}</h6>
-                        <h6 id="package_created"><b>Package Created</b> ${package_created}</h6>
-                        <h6 id="package_modified"><b>Package Modified</b> ${package_modified}</h6>
-                `
-
-                document.getElementById("remark_entry").innerHTML = `
-                        <tr>
-                            <td id="remark_problem_description">${remark_problem_description}</td>
-                            <td id="remark_date_modified">${remark_date_modified}</td>
-                            <td id="estimated_delay_day">${estimated_delay_day}</td>
-                            <td id="estimated_delay_hour">${estimated_delay_hour}</td>
-                            <td id="estimated_delay_minute">${estimated_delay_minute}</td>
-                          </tr>
-                `
+        window.onload = function (e){
+            var queryString = decodeURIComponent(window.location.search);
+            if (!queryString==""){
+                queryString = queryString.substring(1);
+                var temp = queryString.split("=");
+                let tracking_id = temp[1];
+                getRemarks(tracking_id);
             }
+        }
 
+        function searchParcel() {
+            var tracking_id = document.getElementById("search_id").value;
+            window.location.replace("body.html?tracking_id="+tracking_id);
+        }
+
+        async function getRemarks(tracking_id){           
+            var serviceURL = "http://127.0.0.1:5001/"+tracking_id;
+    
+            try {
+                const response = await fetch(
+                                    serviceURL, {method: 'GET'}
+                                    );
+                const result = await response.json();
+                if (response.status === 200) {
+                    // success case
+                    var data = result.data; 
+
+                    var package_info = data.package;
+                    document.getElementById("parcel_details").innerHTML = `
+                    <h1 id="tracking_id"> Tracking ID: ${package_info.tracking_id}</h1>
+                    <h6 id="customer_name"><b>Customer Name:</b>  ${package_info.customer_name}</h6>
+                    <h6 id="cusomter_address"><b>Customer Address:</b> ${package_info.customer_address}</h6>
+                    <h6 id="shipper_name"><b>Shipper Name:</b> ${package_info.shipper_name}</h6>
+                    <h6 id="shipper_address"><b>Shipper Address:</b> ${package_info.shipper_address}</h6>
+                    <h6 id="package_status"><b>Package Status:</b> ${package_info.package_status}</h6>
+                    <h6 id="package_created"><b>Package Created</b> ${package_info.package_created}</h6>
+                    <h6 id="package_modified"><b>Package Modified</b> ${package_info.package_modified}</h6>
+                    `
+
+                    var remarks = data.remarks;
+                    document.getElementById("remark_entry").innerHTML = "";
+
+                    for (const remark of remarks){
+                        document.getElementById("remark_entry").innerHTML += `
+                                <tr>
+                                    <td id="remark_problem_description">${remark.remark_problem_description}</td>
+                                    <td id="remark_date_modified">${remark.remark_date_modified}</td>
+                                    <td id="estimated_delay_day">${remark.estimated_delay_day}</td>
+                                    <td id="estimated_delay_hour">${remark.estimated_delay_hour}</td>
+                                    <td id="estimated_delay_minute">${remark.estimated_delay_minute}</td>
+                                </tr>
+                        `
+                    }
+
+
+                    } else if (response.status == 404) {                       
+                        showError(result.message);
+                    } else {
+                        // unexpected outcome, throw the error
+                        throw response.status;
+                    }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                ('There is a problem with the service, please try again later.<br />' + error);
+            } // error
+        }
+
+        
+
+        // Helper function to display error message
+        function showError(message) {
+            // Display an error under the main container
+            document.getElementById('msg')
+                .append(`
+                <div class="card error_msg">
+                    <div class="card-body">
+                        <label>${message}<label>
+                    </div>
+                </div>
+                `);      
         }
     </script>
     
