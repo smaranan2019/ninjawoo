@@ -200,7 +200,7 @@
         }
 
         async function getRemarks(tracking_id){           
-            var serviceURL = "http://127.0.0.1:5001/"+tracking_id;
+            var serviceURL = "https://ninjawoo.herokuapp.com:8000/"+tracking_id;
     
             try {
                 const response = await fetch(
@@ -243,7 +243,7 @@
                                 times_display.push(time.toString());
                             }
                         }
-                        document.getElementById("empty_data").innerHTML = ""
+                        
                         document.getElementById("remark_entry").innerHTML += `
                                 <tr>
                                     <td id="remark_problem_description">${remark.remark_problem_description}</td>
