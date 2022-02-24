@@ -29,6 +29,7 @@
         body {
             background: #eee;
         }
+
     </style>
 </head>
 <body>
@@ -39,7 +40,6 @@
                 <a class="d-flex align-items-center mb-4 mb-mb-0 mr-md-auto text-white text-decoration-none" href="/">
                     <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap">
-                            #shadow-root (closed)
                             <symbol id="boostrap" viewBox="0 0 118 94">
                             </symbol>
                         </use>
@@ -52,7 +52,7 @@
         
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" aria-current="page">
+                        <a class="nav-link active" href="#" aria-current="page" style="background-color:#C31432;">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#home"></use>
                             </svg> Home
@@ -108,9 +108,9 @@
 
             <div class="mt-5"></div>
 
-            <div class="container-fluid filter-options ml-5">
+            <div class="container-fluid filter-options">
 
-                <div class="dropdown">
+                <div class="dropdown" style="margin-left: 3%;">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                       All Status
                     </button>
@@ -143,12 +143,12 @@
                     </ul>
                 </div>
         
-                <button type="button" class="btn btn-primary indent-left">Filter</button>
+                <button type="button" class="btn indent-left" style="background-color: #C31432; color: white;">Filter</button>
         
         
                 <div class="input-group searchbar align-right">
-                    <input type="search" class="form-control rounded" placeholder="Tracking ID" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="button" class="btn btn-outline-primary">Search</button>
+                    <input type="search" class="form-control rounded" placeholder="Tracking ID" aria-label="Search" aria-describedby="search-addon" id="search_id" value="search_id" />
+                    <button type="button" class="btn" style="background-color: #C31432; color: white;" onclick="searchParcel()">Search</button>
                  </div>
                 
             </div>
@@ -157,13 +157,17 @@
 
             <div class="container-fluid p-5">
                 <div class="container-fluid rounded-top p-5" style="background: white; box-shadow: 0 8px 8px -4px lightgray;">
-                    <h1> Tracking ID: </h1>
-                        <h6><b>Customer Name:</b> Ninja Van</h6>
-                        <h6><b>Customer Address:</b> Ninja Van, 30 Jalan Kilang Barat, Singapore 159363</h6>
-                        <h6><b>Shipper Name:</b> Marani</h6>
-                        <h6><b>Shipper Address:</b> 80 Stamford Road Singapore 178902</h6>
-                        <h6><b>Status:</b> On-Route</h6>
-                        <h6><b>Pick Up DateTime:</b> 2020-06-16 02:14:55</h6>
+
+                    <div id="parcel_details">
+                        <h1 id="tracking_id"> Tracking ID: </h1>
+                        <h6 id="customer_name"><b>Customer Name:</b> Ninja Van</h6>
+                        <h6 id="cusomter_address"><b>Customer Address:</b> Ninja Van, 30 Jalan Kilang Barat, Singapore 159363</h6>
+                        <h6 id="shipper_name"><b>Shipper Name:</b> Marani</h6>
+                        <h6 id="shipper_address"><b>Shipper Address:</b> 80 Stamford Road Singapore 178902</h6>
+                        <h6 id="package_status"><b>Package Status:</b> On-Route</h6>
+                        <h6 id="package_created"><b>Package Created</b> 2020-06-16 02:14:55</h6>
+                        <h6 id="package_modified"><b>Package Modified</b> 2020-06-16 02:14:55</h6>
+                    </div>
 
                     <table class="table">
                         <thead>
@@ -175,49 +179,55 @@
                             <th scope="col-1">Delay Min</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          <tr>
-                            <td>Stomach Ache</td>
-                            <td>2020-06-12 02:14:55</td>
-                            <td>00</td>
-                            <td>00</td>
-                            <td>30</td>
 
-                          </tr>
+                        <tbody id="remark_entry">
                           <tr>
-                            <td>Traffic Jam</td>
-                            <td>2020-06-12 02:14:55</td>
-                            <td>00</td>
-                            <td>03</td>
-                            <td>00</td>
-
-                          </tr>
-                          <tr>
-                            <td>Daughter Sophia sent to IMH</td>
-                            <td>2020-06-12 02:14:55</td>
-                            <td>03</td>
-                            <td>00</td>
-                            <td>00</td>
-
+                            <td id="remark_problem_description">Stomach Ache</td>
+                            <td id="remark_date_modified">2020-06-12 02:14:55</td>
+                            <td id="estimated_delay_day">00</td>
+                            <td id="estimated_delay_hour">00</td>
+                            <td id="estimated_delay_minute">30</td>
                           </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
-            
-
-
-
-
+    
         </div>
     </div>
   
 
-    
+    <script>
+        function searchParcel() {
+            var search_id = document.getElementById("search_id").value;
 
-    
+            if(search_id == tracking_id) {
+                document.getElementById("parcel_details").innerHTML = `
+                        <h1 id="tracking_id"> Tracking ID: ${tracking_id}</h1>
+                        <h6 id="customer_name"><b>Customer Name:</b>  ${customer_name}</h6>
+                        <h6 id="cusomter_address"><b>Customer Address:</b> ${cusomter_address}</h6>
+                        <h6 id="shipper_name"><b>Shipper Name:</b> ${shipper_name}</h6>
+                        <h6 id="shipper_address"><b>Shipper Address:</b> ${shipper_address}</h6>
+                        <h6 id="package_status"><b>Package Status:</b> ${package_status}</h6>
+                        <h6 id="package_created"><b>Package Created</b> ${package_created}</h6>
+                        <h6 id="package_modified"><b>Package Modified</b> ${package_modified}</h6>
+                `
 
-   
+                document.getElementById("remark_entry").innerHTML = `
+                        <tr>
+                            <td id="remark_problem_description">${remark_problem_description}</td>
+                            <td id="remark_date_modified">${remark_date_modified}</td>
+                            <td id="estimated_delay_day">${estimated_delay_day}</td>
+                            <td id="estimated_delay_hour">${estimated_delay_hour}</td>
+                            <td id="estimated_delay_minute">${estimated_delay_minute}</td>
+                          </tr>
+                `
+            }
+
+        }
+    </script>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
