@@ -1,5 +1,0 @@
-Flask==1.1.4
-pyTelegramBotAPI==3.7.1
-mysql-connector-python==8.0.22
-markupsafe==2.0.1
-gunicorn==20.1.0
