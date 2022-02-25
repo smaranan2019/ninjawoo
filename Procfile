@@ -1,1 +1,1 @@
-web: gunicorn --chdir backend app:app
+web python3 backend/app.py
