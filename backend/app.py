@@ -23,4 +23,4 @@ def query_engineers(tracking_id):
 
 if __name__ == "__main__":
     print("This is flask for " + os.path.basename(__file__) + ": manage remarks by drivers ...")
-    app.run(host='https://ninjawoo.herokuapp.com', port=8001, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)
